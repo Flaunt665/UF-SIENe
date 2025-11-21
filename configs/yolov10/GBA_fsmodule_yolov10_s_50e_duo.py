@@ -1,0 +1,55 @@
+_base_ = [
+    './yolov10_s_50e_duo.py'
+]
+
+with_unit_module = True
+norm_cfg = dict(type='GN', num_groups=8)
+act_cfg = dict(type='ReLU')
+c_s1, c_s2 = 32, 32
+
+fs_module = dict(
+    type='FSModule',
+    unit_backbone=dict(
+        type='FSBackbone',
+        stem_channels=(c_s1, c_s2),
+        embed_dims=(32, 32),
+        norm_cfg=norm_cfg,
+        act_cfg=act_cfg),
+    t_head=dict(
+        type='THead',
+        in_channels=c_s2,
+        hid_channels=c_s2,
+        out_channels=3,
+        norm_cfg=norm_cfg,
+        act_cfg=act_cfg),
+    a_head=dict(type='GBAHead'),
+    loss_t=dict(type='TransmissionLoss', loss_weight=500),
+    loss_sp=dict(type='SaturatedPixelLoss', loss_weight=0.01),
+    loss_tv=dict(type='TotalVariationLoss', loss_weight=0.01),
+    loss_cc=dict(type='ColorCastLoss', loss_weight=0.1),
+    loss_acc=dict(type='AssistingColorCastLoss', channels=c_s2, loss_weight=0.1),
+    loss_tc=dict(type='TransmissionConsistencyLoss', loss_weight=500),
+    alpha=0.9,
+    t_min=0.001)
+model = dict(
+    type='FSYOLODetector',
+    data_preprocessor=dict(
+        type='UnitYOLOv5DetDataPreprocessor',
+        unit_module=fs_module)
+)
+
+optim_wrapper = dict(clip_grad=dict(max_norm=35, norm_type=2))
+
+train_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(type='mmdet.LoadAnnotations', with_bbox=True),
+    dict(type='mmdet.Resize', scale=_base_.img_scale, keep_ratio=True),
+    dict(type='BlurGuidedColorRandomTransfer', hue_delta=5),
+    dict(type='mmdet.Pad',
+         pad_to_square=True,
+         pad_val=dict(img=(114.0, 114.0, 114.0))),
+    dict(type='mmdet.RandomFlip', prob=0.5),
+    dict(type='mmdet.PackDetInputs')
+]
+
+train_dataloader = dict(dataset=dict(pipeline=train_pipeline))
