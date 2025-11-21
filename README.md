@@ -27,6 +27,16 @@ This project is based on [MMDetection](https://github.com/open-mmlab/mmdetection
 
 - Python 3.8
 - Pytorch 1.11.0+cu113
+  
+  Our proposed method is implemented based on MMDetection [44]. For lightweight models such as YOLO-like
+ models and RMDet, training is conducted on two NVIDIA GeForce 2080Ti (11GB) GPUs with an input image
+ size of 640×640 for 50 epochs and a batch size 8. For large-scale models with high parameter and computational
+ complexity, such as Faster R-CNN and DINO, training is performed on two V100-32GB GPUs with an input image
+ size of 1024×640 for 12 epochs and a batch size 8. We jointly train UF-SIENet with the above object detection models,
+ incorporating it as a data preprocessing module to generate enhanced underwater images, with training relying on the
+ loss functions described in Section 3.4. The evaluation follows COCO-style Average Precision (AP) metrics, including
+ AP50 (IoU = 0.5), AP75 (IoU = 0.75), and AP, which is computed by averaging results over IoU thresholds ranging
+ from 0.5 to 0.95 with a step size of 0.05, providing a comprehensive assessment of detection performance.
 
 **Step 1.** Create a conda virtual environment and activate it.
 
