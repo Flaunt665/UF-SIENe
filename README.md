@@ -1,8 +1,7 @@
 # UF-SIENe
 
-# <center> UnitModule
-
-###  Underwater object detection (UOD) plays a vital role in marine ecological monitoring, facility
+###   ABSTRACT
+Underwater object detection (UOD) plays a vital role in marine ecological monitoring, facility
  inspection, and resource exploration. However, underwater images often suffer from blurriness,
  noise, and color distortion, severely degrading detection performance. Traditional enhancement
  methodsprioritize visual aesthetics but neglect the needs of detection models. To bridge this gap,
@@ -20,7 +19,6 @@
  robustness to various forms of visual degradation. Extensive experiments on the DUO and
  TrashCan datasets demonstrate that UF-SIENet consistently improves detection accuracy across
  various models, with up to 3.1% AP gain on YOLOV10-S
-
 
 
 ### Installation
@@ -75,3 +73,7 @@ bash tools/dist_train.sh configs/yolov10/DA_fsmodule_yolov10_s_100e_duo.py 2
 ```bash
 bash tools/dist_test.sh configs/yolox/yolox_s_100e_duo.py yolox_s_100e_duo.pth 2
 ```
+
+###   Support & Contact Information
+
+If you have any questions, you can contact us at (w18724284923@outlook.com)
