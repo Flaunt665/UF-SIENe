@@ -28,7 +28,7 @@ This project is based on [MMDetection](https://github.com/open-mmlab/mmdetection
 - Python 3.8
 - Pytorch 1.11.0+cu113
   
-  Our proposed method is implemented based on MMDetection [44]. For lightweight models such as YOLO-like
+  Our proposed method is implemented based on MMDetection. For lightweight models such as YOLO-like
  models and RMDet, training is conducted on two NVIDIA GeForce 2080Ti (11GB) GPUs with an input image
  size of 640×640 for 50 epochs and a batch size 8. For large-scale models with high parameter and computational
  complexity, such as Faster R-CNN and DINO, training is performed on two V100-32GB GPUs with an input image
